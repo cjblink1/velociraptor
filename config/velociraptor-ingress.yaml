@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "velociraptor"
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - secretName: velociraptor-certs
+  rules:
+  - host: v.cjblink1.pro
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: velociraptor-web-app
+          servicePort: 80

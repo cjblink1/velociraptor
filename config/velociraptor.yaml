@@ -1,0 +1,35 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: velociraptor-web-app
+  annotations:
+    flux.weave.works/automated: 'true'
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: velociraptor-web-app
+    spec:
+      containers:
+      - name: web-app
+        image: 'cjblink1/velociraptor-web-app:master-0fa0830aa8833a27f9c4db4626de7eb1e10aac6d'
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: velociraptor-web-app
+  labels:
+    name: velociraptor-web-app
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: velociraptor-web-app
+  type: ClusterIP
