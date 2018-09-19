@@ -1,0 +1,8 @@
+#simulation {
+  height: 800px;
+  width: 800px;
+  border: 2px;
+  margin: 5px;
+  border-color: black;
+  border-style: dotted;
+}
