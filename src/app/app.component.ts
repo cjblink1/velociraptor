@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
+import { World } from './model/world';
+import { EntityFactory } from './model/entity-factory';
+import { Entity } from './model/entity';
 
 @Component({
   selector: 'app-root',
@@ -14,29 +17,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const svg = d3.select('svg');
+    const world = new World();
+    const entityFactory = new EntityFactory(svg, world);
 
-    const th = svg.append('circle')
-      .attr('id', 'th')
-      .attr('r', 30)
-      .attr('cx', 300)
-      .attr('cy', 300);
-
-    const raptor = svg.append('circle')
-      .attr('id', 'raptor')
-      .attr('r', 10)
-      .attr('cx', 500)
-      .attr('cy', 300);
+    world.addEntity(entityFactory.createEvader(500, 300));
+    world.addEntity(entityFactory.createPursuer(600, 600));
 
     const timer = d3.timer((elapsed) => {
-      const th_x = th.attr('cx');
-      const th_y = th.attr('cy');
 
-      th.attr('cx', parseFloat(th_x) + .5);
-      th.attr('cy', parseFloat(th_y) + .5);
-
-      if (elapsed > 15000) {
-        timer.stop();
-      }
+      world.update(elapsed);
+      world.render();
 
     }, 15);
 
