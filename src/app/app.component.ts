@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { World } from './model/world';
 import { EntityFactory } from './model/entity-factory';
-import { Entity } from './model/entity';
 
 @Component({
   selector: 'app-root',
