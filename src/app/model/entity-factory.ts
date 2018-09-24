@@ -1,7 +1,7 @@
 import { Entity } from './entity';
 import { EntityImpl } from './entity-impl';
 import { World } from './world';
-import { NoOp, Circle400, MoveLeft, FollowEvader } from './strategies/dumb-update-strategies';
+import { NoOp, Circle400, MoveLeft, FollowEvader, FigureEight } from './strategies/dumb-update-strategies';
 
 export class EntityFactory {
 
@@ -26,7 +26,7 @@ export class EntityFactory {
     const ref = this.entitiesRef.append('circle')
       .attr('id', 'th')
       .attr('r', 30);
-    return new EntityImpl('evader', startX, startY, ref, lineRef, this.world, new Circle400());
+    return new EntityImpl('evader', startX, startY, ref, lineRef, this.world, new FigureEight());
   }
 
   public createPursuer(startX: number, startY: number): Entity {

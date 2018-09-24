@@ -78,6 +78,18 @@ export class Circle400 extends UpdateStrategy {
   }
 }
 
+export class FigureEight extends UpdateStrategy {
+
+  private t = 0;
+
+  update(timeElapsed: number, delta: number) {
+    this.entityImpl.cx = 400 + 200 * Math.cos((2 * Math.PI / 4500) * this.t);
+    this.entityImpl.cy = 400 + 60 * Math.sin((4 * Math.PI / 4500) * this.t);
+    this.t += delta;
+  }
+
+}
+
 export class FollowEvader extends UpdateStrategy {
 
   private evader: Entity;
@@ -101,3 +113,4 @@ export class FollowEvader extends UpdateStrategy {
     this.entityImpl.cy += dy;
   }
 }
+

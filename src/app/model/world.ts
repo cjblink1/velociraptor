@@ -11,8 +11,8 @@ export class World {
     return this.entities.slice(0);
   }
 
-  update(elapsed: number) {
-    this.entities.forEach(entity => entity.update(elapsed));
+  update(elapsed: number, delta: number) {
+    this.entities.forEach(entity => entity.update(elapsed, delta));
   }
 
   render() {

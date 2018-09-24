@@ -14,7 +14,7 @@ export abstract class UpdateStrategy implements Entity {
 
   onExit() {}
 
-  update(timeElapsed: number) {}
+  update(timeElapsed: number, delta: number) {}
 
   render() {
     const data = this.entityImpl.lineRef.attr('d');

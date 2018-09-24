@@ -23,9 +23,13 @@ export class AppComponent implements OnInit {
     world.addEntity(entityFactory.createEvader(550, 550));
     world.addEntity(entityFactory.createPursuer(100, 100));
 
+    let currentTime = d3.now();
     const timer = d3.timer((elapsed) => {
 
-      world.update(elapsed);
+      const previousTime = currentTime;
+      currentTime = d3.now();
+      const delta = currentTime - previousTime;
+      world.update(elapsed, delta);
       world.render();
 
       if (elapsed > 15000) {

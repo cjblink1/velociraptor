@@ -22,8 +22,8 @@ export class EntityImpl implements Entity {
     this.currentStrategy.onEntry(this, this.world);
   }
 
-  update(timeElapsed: number): void {
-    this.currentStrategy.update(timeElapsed);
+  update(timeElapsed: number, delta: number): void {
+    this.currentStrategy.update(timeElapsed, delta);
   }
 
   render(): void {
