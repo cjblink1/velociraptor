@@ -22,4 +22,14 @@ export abstract class UpdateStrategy implements Entity {
     this.entityImpl.ref.attr('cx', this.entityImpl.cx);
     this.entityImpl.ref.attr('cy', this.entityImpl.cy);
   }
+
+  getX(): number {
+    throw new Error('Method not implemented.');
+  }
+  getY(): number {
+    throw new Error('Method not implemented.');
+  }
+  getType(): string {
+    throw new Error('Method not implemented.');
+  }
 }

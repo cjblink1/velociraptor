@@ -8,7 +8,7 @@ spec:
   tls:
   - secretName: velociraptor-certs
   rules:
-  - host: v.cjblink1.pro
+  - host: raptor.cjblink1.pro
     http:
       paths:
       - path: /

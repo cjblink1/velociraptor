@@ -3,6 +3,7 @@ import { UpdateStrategy } from './update-strategy';
 import { World } from './world';
 
 export class EntityImpl implements Entity {
+  public type: string;
   public cx: number;
   public cy: number;
   public ref;
@@ -10,7 +11,8 @@ export class EntityImpl implements Entity {
   public world;
   private currentStrategy: UpdateStrategy;
 
-  constructor(startX: number, startY: number, ref, lineRef, world: World, initialStrategy: UpdateStrategy) {
+  constructor(type: string, startX: number, startY: number, ref, lineRef, world: World, initialStrategy: UpdateStrategy) {
+    this.type = type;
     this.cx = startX;
     this.cy = startY;
     this.ref = ref;
@@ -26,6 +28,16 @@ export class EntityImpl implements Entity {
 
   render(): void {
     this.currentStrategy.render();
+  }
+
+  getX(): number {
+    return this.cx;
+  }
+  getY(): number {
+    return this.cy;
+  }
+  getType(): string {
+    return this.type;
   }
 
   setStrategy(newStrategy: UpdateStrategy) {

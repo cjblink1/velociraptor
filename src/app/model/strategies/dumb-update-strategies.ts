@@ -1,4 +1,7 @@
 import { UpdateStrategy } from '../update-strategy';
+import { EntityImpl } from '../entity-impl';
+import { World } from '../world';
+import { Entity } from '../entity';
 
 export class MoveLeft extends UpdateStrategy {
 
@@ -68,8 +71,32 @@ export class NoOp extends UpdateStrategy {
 
 export class Circle400 extends UpdateStrategy {
   update(timeElapsed: number) {
-    const dx = .02 * (400 - this.entityImpl.cy);
-    const dy = .02 * (this.entityImpl.cx - 400);
+    const dx = .01 * (400 - this.entityImpl.cy);
+    const dy = .01 * (this.entityImpl.cx - 400);
+    this.entityImpl.cx += dx;
+    this.entityImpl.cy += dy;
+  }
+}
+
+export class FollowEvader extends UpdateStrategy {
+
+  private evader: Entity;
+
+  onEntry(entityImpl: EntityImpl, world: World) {
+    super.onEntry(entityImpl, world);
+    this.pickEvader();
+  }
+
+  private pickEvader() {
+    this.evader = this.world.getEntities().find(entity => entity.getType() === 'evader');
+  }
+
+  update(timeElapsed: number) {
+    if (!this.evader) {
+      this.pickEvader();
+    }
+    const dx = .02 * (this.evader.getX() - this.entityImpl.cx);
+    const dy = .02 * (this.evader.getY() - this.entityImpl.cy);
     this.entityImpl.cx += dx;
     this.entityImpl.cy += dy;
   }

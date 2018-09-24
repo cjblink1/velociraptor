@@ -15,17 +15,22 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const svg = d3.select('svg');
+    const entities = d3.select('#entities');
+    const traces = d3.select('#traces');
     const world = new World();
-    const entityFactory = new EntityFactory(svg, world);
+    const entityFactory = new EntityFactory(entities, traces, world);
 
-    world.addEntity(entityFactory.createEvader(500, 300));
-    world.addEntity(entityFactory.createPursuer(600, 600));
+    world.addEntity(entityFactory.createEvader(550, 550));
+    world.addEntity(entityFactory.createPursuer(100, 100));
 
     const timer = d3.timer((elapsed) => {
 
       world.update(elapsed);
       world.render();
+
+      if (elapsed > 15000) {
+        timer.stop();
+      }
 
     }, 15);
   }

@@ -8,12 +8,12 @@ spec:
   issuerRef:
     name: letsencrypt-prod-cluster-issuer
     kind: ClusterIssuer
-  commonName: v.cjblink1.pro
+  commonName: raptor.cjblink1.pro
   dnsNames:
-  - v.cjblink1.pro
+  - raptor.cjblink1.pro
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-      - v.cjblink1.pro
+      - raptor.cjblink1.pro
