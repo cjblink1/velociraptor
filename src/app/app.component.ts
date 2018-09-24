@@ -28,15 +28,5 @@ export class AppComponent implements OnInit {
       world.render();
 
     }, 15);
-
-    // const node = svg.append('g')
-    //   .attr('class', 'nodes')
-    // .selectAll('circle')
-    // .data([1])
-    // .enter().append('circle')
-    //   .attr('r', 5)
-    //   .attr('fill', function(d) { return d; });
-
   }
-
 }

@@ -6,13 +6,15 @@ export class EntityImpl implements Entity {
   public cx: number;
   public cy: number;
   public ref;
+  public lineRef;
   public world;
   private currentStrategy: UpdateStrategy;
 
-  constructor(startX: number, startY: number, ref, world: World, initialStrategy: UpdateStrategy) {
+  constructor(startX: number, startY: number, ref, lineRef, world: World, initialStrategy: UpdateStrategy) {
     this.cx = startX;
     this.cy = startY;
     this.ref = ref;
+    this.lineRef = lineRef;
     this.world = world;
     this.currentStrategy = initialStrategy;
     this.currentStrategy.onEntry(this, this.world);

@@ -17,6 +17,8 @@ export abstract class UpdateStrategy implements Entity {
   update(timeElapsed: number) {}
 
   render() {
+    const data = this.entityImpl.lineRef.attr('d');
+    this.entityImpl.lineRef.attr('d', data + `${+this.entityImpl.cx},${+this.entityImpl.cy} `);
     this.entityImpl.ref.attr('cx', this.entityImpl.cx);
     this.entityImpl.ref.attr('cy', this.entityImpl.cy);
   }

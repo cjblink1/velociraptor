@@ -65,3 +65,12 @@ export class MoveDown extends UpdateStrategy {
 export class NoOp extends UpdateStrategy {
   update(timeElapsed: number) {}
 }
+
+export class Circle400 extends UpdateStrategy {
+  update(timeElapsed: number) {
+    const dx = .02 * (400 - this.entityImpl.cy);
+    const dy = .02 * (this.entityImpl.cx - 400);
+    this.entityImpl.cx += dx;
+    this.entityImpl.cy += dy;
+  }
+}
