@@ -15,9 +15,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const svg = d3.select('svg');
     const entities = d3.select('#entities');
     const traces = d3.select('#traces');
-    const world = new World();
+    const world = new World(svg);
     const entityFactory = new EntityFactory(entities, traces, world);
 
     world.addEntity(entityFactory.createEvader(550, 550));

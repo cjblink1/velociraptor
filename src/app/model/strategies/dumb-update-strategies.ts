@@ -2,6 +2,7 @@ import { UpdateStrategy } from '../update-strategy';
 import { EntityImpl } from '../entity-impl';
 import { World } from '../world';
 import { Entity } from '../entity';
+import * as d3 from 'd3';
 
 export class MoveLeft extends UpdateStrategy {
 
@@ -112,5 +113,29 @@ export class FollowEvader extends UpdateStrategy {
     this.entityImpl.cx += dx;
     this.entityImpl.cy += dy;
   }
+}
+
+export class MouseMove extends UpdateStrategy {
+
+  private mouseX: number;
+  private mouseY: number;
+
+  onEntry(entityImpl: EntityImpl, world: World) {
+    super.onEntry(entityImpl, world);
+
+    this.mouseX = 0;
+    this.mouseY = 0;
+
+    world.ref.on('mousemove', () => {
+      this.mouseX = d3.event.offsetX;
+      this.mouseY = d3.event.offsetY;
+    });
+  }
+
+  update(timeElapsed: number, delta: number) {
+    this.entityImpl.cx = this.mouseX;
+    this.entityImpl.cy = this.mouseY;
+  }
+
 }
 

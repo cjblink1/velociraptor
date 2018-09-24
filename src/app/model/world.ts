@@ -1,7 +1,12 @@
 import { Entity } from './entity';
 
 export class World {
+  public ref;
   private entities: Entity[] = [];
+
+  constructor(ref) {
+    this.ref = ref;
+  }
 
   addEntity(entity: Entity) {
     this.entities.push(entity);
