@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web-app
-        image: 'cjblink1/velociraptor-web-app:master-4a48d6695266dee55ec44d725886ba298a6b8003'
+        image: 'cjblink1/velociraptor-web-app:master-55b050fa970c37acb37326cdd6cd05cb2b2ac43d'
         ports:
         - containerPort: 80
 ---

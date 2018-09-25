@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   ];
 
   protected pursuerStrategy = FollowEvader;
-  protected evaderStrategy = FigureEight;
+  protected evaderStrategy = MoveLeft;
   private timer: d3.Timer;
   private currentTime: number;
   private world: World;
@@ -86,7 +86,11 @@ export class AppComponent implements OnInit {
 
     this.world = new World(this.svg);
     const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
-    this.world.addEntity(entityFactory.createEvader(550, 550, this.evaderStrategy));
+    const bounds = this.svg.node().getBoundingClientRect();
+    this.world.addEntity(entityFactory
+      .createEvader(bounds.width / 2,
+                    +bounds.height / 2,
+                    this.evaderStrategy));
     this.world.addEntity(entityFactory.createPursuer(100, 100, this.pursuerStrategy));
   }
 
