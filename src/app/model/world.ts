@@ -23,4 +23,16 @@ export class World {
   render() {
     this.entities.forEach(entity => entity.render());
   }
+
+  clear() {
+    this.entities.forEach(entity => entity.clear());
+    this.entities = [];
+  }
+
+  changeStrategyForType(type: string, newStrategy) {
+    this.entities
+    .filter(entity => entity.getType() === type)
+    .forEach(entity => entity.setStrategy(new newStrategy()));
+
+  }
 }

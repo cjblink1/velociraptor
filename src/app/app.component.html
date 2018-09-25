@@ -3,25 +3,37 @@
     <g id="traces"></g>
     <g id="entities"></g>
   </svg>
-  <mat-form-field>
-    <mat-select placeholder="Pursuer Strategy">
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{food.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-select placeholder="Evader Strategy">
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{food.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
+  <div id="controls">
+    <mat-form-field>
+      <mat-select placeholder="Pursuer Strategy" [(value)]="pursuerStrategy" (valueChange)="changePursuerStrategy()">
+        <mat-option *ngFor="let strategy of strategies" [value]="strategy.value">
+          {{strategy.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Evader Strategy" [(value)]="evaderStrategy" (valueChange)="changeEvaderStrategy()">
+        <mat-option *ngFor="let strategy of strategies" [value]="strategy.value">
+          {{strategy.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button *ngIf="started" mat-raised-button color="primary" (click)="stop()">
+      <mat-icon>stop</mat-icon>
+    </button>
+    <button *ngIf="!started" mat-raised-button color="primary" (click)="start()">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" (click)="reset()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <!-- <mat-form-field>
     <mat-select placeholder="Favorite food">
       <mat-option *ngFor="let food of foods" [value]="food.value">
         {{food.viewValue}}
       </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
 </div>

@@ -15,7 +15,10 @@ export class EntityFactory {
     this.world = world;
   }
 
-  public createEvader(startX: number, startY: number): Entity {
+  public createEvader(startX: number, startY: number, updateStrategyType?): Entity {
+    if (!updateStrategyType) {
+      updateStrategyType = FigureEight;
+    }
     const lineRef = this.tracesRef.append('path')
       .attr('id', 'th-trace')
       .attr('d', `M${+startX} ${+startY} L `)
@@ -25,11 +28,16 @@ export class EntityFactory {
       .attr('stroke-width', 4);
     const ref = this.entitiesRef.append('circle')
       .attr('id', 'th')
-      .attr('r', 30);
-    return new EntityImpl('evader', startX, startY, ref, lineRef, this.world, new MouseMove());
+      .attr('r', 30)
+      .attr('cx', startX)
+      .attr('cy', startY);
+    return new EntityImpl('evader', startX, startY, ref, lineRef, this.world, new updateStrategyType());
   }
 
-  public createPursuer(startX: number, startY: number): Entity {
+  public createPursuer(startX: number, startY: number, updateStrategyType?): Entity {
+    if (!updateStrategyType) {
+      updateStrategyType = FollowEvader;
+    }
     const lineRef = this.tracesRef.append('path')
       .attr('id', 'raptor-trace')
       .attr('d', `M${startX} ${startY} `)
@@ -39,7 +47,9 @@ export class EntityFactory {
       .attr('stroke-width', 4);
     const ref = this.entitiesRef.append('circle')
     .attr('id', 'raptor')
-    .attr('r', 10);
-    return new EntityImpl('pursuer', startX, startY, ref, lineRef, this.world, new FollowEvader());
+    .attr('r', 10)
+    .attr('cx', startX)
+    .attr('cy', startY);
+    return new EntityImpl('pursuer', startX, startY, ref, lineRef, this.world, new updateStrategyType());
   }
 }

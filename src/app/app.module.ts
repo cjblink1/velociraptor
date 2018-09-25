@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material';
+import { MatSelectModule, MatButton, MatButtonModule, MatIconModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 
@@ -15,7 +15,9 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

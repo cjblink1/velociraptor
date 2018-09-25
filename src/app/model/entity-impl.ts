@@ -45,4 +45,9 @@ export class EntityImpl implements Entity {
     this.currentStrategy = newStrategy;
     this.currentStrategy.onEntry(this, this.world);
   }
+
+  clear() {
+    this.ref.remove();
+    this.lineRef.remove();
+  }
 }

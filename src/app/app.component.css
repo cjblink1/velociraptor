@@ -12,3 +12,9 @@
   display: block;
   height: 100%;
 }
+
+#controls {
+  margin: auto;
+  display: block;
+  text-align: center;
+}
