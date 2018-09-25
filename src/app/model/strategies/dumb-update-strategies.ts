@@ -127,9 +127,24 @@ export class MouseMove extends UpdateStrategy {
     this.mouseY = 0;
 
     world.ref.on('mousemove', () => {
-      this.mouseX = d3.event.offsetX;
-      this.mouseY = d3.event.offsetY;
+      const coords = d3.mouse(world.ref.node());
+      this.mouseX = coords[0];
+      this.mouseY = coords[1];
     });
+
+
+    world.ref.call(d3.drag()
+    .on('start', () => {
+      const coords = d3.mouse(world.ref.node());
+      this.mouseX = coords[0];
+      this.mouseY = coords[1];
+    })
+    .on('drag', () => {
+      const coords = d3.mouse(world.ref.node());
+      this.mouseX = coords[0];
+      this.mouseY = coords[1];
+    }));
+
   }
 
   update(timeElapsed: number, delta: number) {

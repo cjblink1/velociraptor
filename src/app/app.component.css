@@ -1,8 +1,9 @@
 #simulation {
-  height: 800px;
-  width: 800px;
+  height: calc(100% - 100px);
+  width:  calc(100% - 50px);
   border: 2px;
-  margin: 5px;
+  margin: auto;
   border-color: black;
   border-style: dotted;
+  display: block;
 }
