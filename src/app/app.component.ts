@@ -10,6 +10,12 @@ import { EntityFactory } from './model/entity-factory';
 })
 export class AppComponent implements OnInit {
 
+  protected foods = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'}
+  ];
+
   constructor() {
 
   }

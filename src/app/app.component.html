@@ -1,5 +1,27 @@
-<svg id="simulation">
-  <g id="traces"></g>
-  <g id="entities"></g>
-</svg>
-
+<div id="app">
+  <svg id="simulation">
+    <g id="traces"></g>
+    <g id="entities"></g>
+  </svg>
+  <mat-form-field>
+    <mat-select placeholder="Pursuer Strategy">
+      <mat-option *ngFor="let food of foods" [value]="food.value">
+        {{food.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Evader Strategy">
+      <mat-option *ngFor="let food of foods" [value]="food.value">
+        {{food.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Favorite food">
+      <mat-option *ngFor="let food of foods" [value]="food.value">
+        {{food.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
