@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import * as d3 from 'd3';
 import { World } from './model/world';
 import { EntityFactory } from './model/entity-factory';
+import { NoOp, MoveLeft, MoveUp, MoveRight, MoveDown, Circle400,
+  FollowEvader, FigureEight, MouseMove } from './model/strategies/dumb-update-strategies';
+import { NgClass } from '@angular/common';
+import { ClassStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -10,33 +14,91 @@ import { EntityFactory } from './model/entity-factory';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
+  protected strategies = [
+    {value: NoOp, viewValue: 'No Op'},
+    {value: MoveLeft, viewValue: 'Move Left'},
+    {value: MoveUp, viewValue: 'Move Up'},
+    {value: MoveRight, viewValue: 'Move Right'},
+    {value: MoveDown, viewValue: 'Move Down'},
+    {value: Circle400, viewValue: 'Circle 400'},
+    {value: FigureEight, viewValue: 'Figure Eight'},
+    {value: FollowEvader, viewValue: 'Follow Evader'},
+    {value: MouseMove, viewValue: 'Mouse Move'},
+  ];
 
-  }
+  protected pursuerStrategy = FollowEvader;
+  protected evaderStrategy = MoveLeft;
+  private timer: d3.Timer;
+  private currentTime: number;
+  private world: World;
+  protected started: boolean;
+
+  private svg;
+  private entities;
+  private traces;
+
+  constructor(private zone: NgZone) { }
 
   ngOnInit(): void {
-    const svg = d3.select('svg');
-    const world = new World();
-    const entityFactory = new EntityFactory(svg, world);
+    this.svg = d3.select('svg');
+    this.entities = d3.select('#entities');
+    this.traces = d3.select('#traces');
+    this.reset();
+  }
 
-    world.addEntity(entityFactory.createEvader(500, 300));
-    world.addEntity(entityFactory.createPursuer(600, 600));
+  start() {
+    this.started = true;
+    this.currentTime = d3.now();
+    this.timer = d3.timer((elapsed) => {
+      const previousTime = this.currentTime;
+      this.currentTime = d3.now();
+      const delta = this.currentTime - previousTime;
+      this.world.update(elapsed, delta);
+      this.world.render();
 
-    const timer = d3.timer((elapsed) => {
-
-      world.update(elapsed);
-      world.render();
+      if (elapsed > 15000) {
+        this.started = false;
+        this.timer.stop();
+      }
 
     }, 15);
+  }
 
-    // const node = svg.append('g')
-    //   .attr('class', 'nodes')
-    // .selectAll('circle')
-    // .data([1])
-    // .enter().append('circle')
-    //   .attr('r', 5)
-    //   .attr('fill', function(d) { return d; });
+  stop() {
+    this.started = false;
+    this.timer.stop();
+  }
+
+  resume() {
 
   }
 
+  reset() {
+    this.started = false;
+
+    if (this.timer) {
+      this.timer.stop();
+    }
+
+    if (this.world) {
+      this.world.clear();
+    }
+
+    this.world = new World(this.svg);
+    const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
+    const bounds = this.svg.node().getBoundingClientRect();
+    this.world.addEntity(entityFactory
+      .createEvader(bounds.width / 2,
+                    +bounds.height / 2,
+                    this.evaderStrategy));
+    this.world.addEntity(entityFactory.createPursuer(100, 100, this.pursuerStrategy));
+  }
+
+  changePursuerStrategy() {
+    this.world.changeStrategyForType('pursuer', this.pursuerStrategy);
+  }
+
+  changeEvaderStrategy() {
+    this.world.changeStrategyForType('evader', this.evaderStrategy);
+  }
 }
