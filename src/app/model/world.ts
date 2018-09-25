@@ -29,6 +29,7 @@ export class World {
         }
       })
     })
+    return true;
   }
 
   render() {

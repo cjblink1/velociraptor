@@ -4,6 +4,7 @@ import { World } from './model/world';
 import { EntityFactory } from './model/entity-factory';
 import { NoOp, MoveLeft, MoveUp, MoveRight, MoveDown, Circle400,
   FollowEvader, FigureEight, MouseMove } from './model/strategies/dumb-update-strategies';
+import { FollowEvaderSpeed, EscapePredator } from './model/strategies/dynamic-update-stratigies'
 import { NgClass } from '@angular/common';
 import { ClassStmt } from '@angular/compiler';
 
@@ -15,6 +16,8 @@ import { ClassStmt } from '@angular/compiler';
 export class AppComponent implements OnInit {
 
   protected strategies = [
+    {value: FollowEvaderSpeed, viewValue: 'FollowEvaderSpeed'},
+    {value: EscapePredator, viewValue: 'EscapePredator'},
     {value: NoOp, viewValue: 'No Op'},
     {value: MoveLeft, viewValue: 'Move Left'},
     {value: MoveUp, viewValue: 'Move Up'},
@@ -54,7 +57,7 @@ export class AppComponent implements OnInit {
       this.currentTime = d3.now();
       const delta = this.currentTime - previousTime;
       if (!this.world.update(elapsed, delta)) {
-        this.timer.stop();
+       this.timer.stop();
       }
       this.world.render();
 
@@ -86,14 +89,14 @@ export class AppComponent implements OnInit {
       this.world.clear();
     }
 
-    this.world = new World(this.svg, 1);
+    this.world = new World(this.svg, 2);
     const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
     const bounds = this.svg.node().getBoundingClientRect();
     this.world.addEntity(entityFactory
-      .createEvader(bounds.width / 2,
-                    +bounds.height / 2,
+      .createEvader(50,
+                    0,
                     this.evaderStrategy));
-    this.world.addEntity(entityFactory.createPursuer(100, 100, this.pursuerStrategy));
+    this.world.addEntity(entityFactory.createPursuer(0, 0, this.pursuerStrategy));
   }
 
   changePursuerStrategy() {

@@ -50,4 +50,12 @@ export class EntityImpl implements Entity {
     this.ref.remove();
     this.lineRef.remove();
   }
+
+  getSpeed() {
+    if (this.type == 'evader') {
+      return 50.0 / 3600;
+    } else {
+      return 60.0 / 3600;
+    }
+  }
 }
