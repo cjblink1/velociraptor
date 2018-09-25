@@ -53,7 +53,9 @@ export class AppComponent implements OnInit {
       const previousTime = this.currentTime;
       this.currentTime = d3.now();
       const delta = this.currentTime - previousTime;
-      this.world.update(elapsed, delta);
+      if (!this.world.update(elapsed, delta)) {
+        this.timer.stop();
+      }
       this.world.render();
 
       if (elapsed > 15000) {
@@ -84,7 +86,7 @@ export class AppComponent implements OnInit {
       this.world.clear();
     }
 
-    this.world = new World(this.svg);
+    this.world = new World(this.svg, 1);
     const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
     const bounds = this.svg.node().getBoundingClientRect();
     this.world.addEntity(entityFactory
