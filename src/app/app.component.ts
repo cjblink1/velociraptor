@@ -4,7 +4,7 @@ import { World } from './model/world';
 import { EntityFactory } from './model/entity-factory';
 import { NoOp, MoveLeft, MoveUp, MoveRight, MoveDown, Circle400,
   FollowEvader, FigureEight, MouseMove } from './model/strategies/dumb-update-strategies';
-import { FollowEvaderSpeed, EscapePredator } from './model/strategies/dynamic-update-stratigies'
+import { FollowEvaderSpeed, EscapePredator, Turn, EscapePredatorTurn,GoDirectionOfEvader } from './model/strategies/dynamic-update-stratigies'
 import { NgClass } from '@angular/common';
 import { ClassStmt } from '@angular/compiler';
 
@@ -17,7 +17,10 @@ export class AppComponent implements OnInit {
 
   protected strategies = [
     {value: FollowEvaderSpeed, viewValue: 'FollowEvaderSpeed'},
-    {value: EscapePredator, viewValue: 'EscapePredator'},
+    {value: GoDirectionOfEvader, viewValue: 'GoDirectionOfEvader'},
+    {value: Turn, viewValue: 'TurnLeft'},
+    {value: MouseMove, viewValue: 'Mouse Move'},
+    {value: EscapePredatorTurn, viewValue: 'EscapePredatorTurn'},
     {value: NoOp, viewValue: 'No Op'},
     {value: MoveLeft, viewValue: 'Move Left'},
     {value: MoveUp, viewValue: 'Move Up'},
@@ -27,6 +30,7 @@ export class AppComponent implements OnInit {
     {value: FigureEight, viewValue: 'Figure Eight'},
     {value: FollowEvader, viewValue: 'Follow Evader'},
     {value: MouseMove, viewValue: 'Mouse Move'},
+
   ];
 
   protected pursuerStrategy = FollowEvader;
@@ -66,7 +70,7 @@ export class AppComponent implements OnInit {
         this.timer.stop();
       }
 
-    }, 15);
+    }, 1);
   }
 
   stop() {
@@ -89,11 +93,11 @@ export class AppComponent implements OnInit {
       this.world.clear();
     }
 
-    this.world = new World(this.svg, 2);
+    this.world = new World(this.svg, 5);
     const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
     const bounds = this.svg.node().getBoundingClientRect();
     this.world.addEntity(entityFactory
-      .createEvader(50,
+      .createEvader(20,
                     0,
                     this.evaderStrategy));
     this.world.addEntity(entityFactory.createPursuer(0, 0, this.pursuerStrategy));

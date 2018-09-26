@@ -58,4 +58,13 @@ export class EntityImpl implements Entity {
       return 60.0 / 3600;
     }
   }
+
+
+  getTurningRadius() {
+    if (this.type == 'evader') {
+      return 11;
+    } else {
+      return 16;
+    }
+  }
 }
