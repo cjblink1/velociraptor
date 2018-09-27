@@ -6,6 +6,8 @@ import { NoOp, MoveLeft, MoveUp, MoveRight, MoveDown, Circle400,
   FollowEvader, FigureEight, MouseMove } from './model/strategies/dumb-update-strategies';
 import { FollowEvaderSpeed, EscapePredator, Turn, EscapePredatorTurn,GoDirectionOfEvader } from './model/strategies/dynamic-update-stratigies'
 import { PreyStratgey1, PredatorStratgey1 } from './model/strategies/stragey1';
+import { PreyStratgey2, PredatorStratgey2 } from './model/strategies/stratgey2';
+
 import { NgClass } from '@angular/common';
 import { ClassStmt } from '@angular/compiler';
 
@@ -18,7 +20,9 @@ export class AppComponent implements OnInit {
 
   protected strategies = [
     {value: PreyStratgey1, viewValue: 'PreyStratgey1'},  
-    {value: PredatorStratgey1, viewValue: 'PredatorStratgey1'},    
+    {value: PredatorStratgey1, viewValue: 'PredatorStratgey1'},
+    {value: PreyStratgey2, viewValue: 'PreyStratgey2'},  
+    {value: PredatorStratgey2, viewValue: 'PredatorStratgey2'},
     {value: FollowEvaderSpeed, viewValue: 'FollowEvaderSpeed'},
     {value: GoDirectionOfEvader, viewValue: 'GoDirectionOfEvader'},
     {value: Turn, viewValue: 'TurnLeft'},
@@ -119,7 +123,7 @@ export class AppComponent implements OnInit {
     const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
     const bounds = this.svg.node().getBoundingClientRect();
     this.world.addEntity(entityFactory
-      .createEvader(50,
+      .createEvader(20,
                     0,
                     this.evaderStrategy));
     this.world.addEntity(entityFactory.createPursuer(0, 0, this.pursuerStrategy));
