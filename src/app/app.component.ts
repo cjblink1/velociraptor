@@ -5,6 +5,7 @@ import { EntityFactory } from './model/entity-factory';
 import { NoOp, MoveLeft, MoveUp, MoveRight, MoveDown, Circle400,
   FollowEvader, FigureEight, MouseMove } from './model/strategies/dumb-update-strategies';
 import { FollowEvaderSpeed, EscapePredator, Turn, EscapePredatorTurn,GoDirectionOfEvader } from './model/strategies/dynamic-update-stratigies'
+import { PreyStratgey1, PredatorStratgey1 } from './model/strategies/stragey1';
 import { NgClass } from '@angular/common';
 import { ClassStmt } from '@angular/compiler';
 
@@ -16,6 +17,8 @@ import { ClassStmt } from '@angular/compiler';
 export class AppComponent implements OnInit {
 
   protected strategies = [
+    {value: PreyStratgey1, viewValue: 'PreyStratgey1'},  
+    {value: PredatorStratgey1, viewValue: 'PredatorStratgey1'},    
     {value: FollowEvaderSpeed, viewValue: 'FollowEvaderSpeed'},
     {value: GoDirectionOfEvader, viewValue: 'GoDirectionOfEvader'},
     {value: Turn, viewValue: 'TurnLeft'},
@@ -30,11 +33,10 @@ export class AppComponent implements OnInit {
     {value: FigureEight, viewValue: 'Figure Eight'},
     {value: FollowEvader, viewValue: 'Follow Evader'},
     {value: MouseMove, viewValue: 'Mouse Move'},
-
   ];
 
-  protected pursuerStrategy = FollowEvader;
-  protected evaderStrategy = MoveLeft;
+  protected pursuerStrategy = PredatorStratgey1;
+  protected evaderStrategy = PreyStratgey1;
   private timer: d3.Timer;
   private currentTime: number;
   private world: World;
@@ -43,6 +45,7 @@ export class AppComponent implements OnInit {
   private svg;
   private entities;
   private traces;
+  private eaten;
 
   constructor(private zone: NgZone) { }
 
@@ -54,6 +57,7 @@ export class AppComponent implements OnInit {
   }
 
   start() {
+    this.eaten = false;
     this.started = true;
     this.currentTime = d3.now();
     this.timer = d3.timer((elapsed) => {
@@ -62,11 +66,29 @@ export class AppComponent implements OnInit {
       const delta = this.currentTime - previousTime;
       if (!this.world.update(elapsed, delta)) {
        this.timer.stop();
+       this.eaten = true;
+       this.svg.append("svg:text")
+       .attr("text-anchor", "middle")
+       .attr('x', 500)
+       .attr('y', 300)
+       .attr('font-size', '200px')
+       .attr('fill', 'red')
+       .text("yummy");
       }
       this.world.render();
 
       if (elapsed > 15000) {
         this.started = false;
+        if (! this.eaten) {
+          this.svg.append("svg:text")
+          .attr("text-anchor", "middle")
+          .attr('x', 500)
+          .attr('y', 300)
+          .attr('font-size', '100px')
+          .attr('fill', 'blue')
+          .text("thx obama :/");
+        }
+       
         this.timer.stop();
       }
 
@@ -97,7 +119,7 @@ export class AppComponent implements OnInit {
     const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
     const bounds = this.svg.node().getBoundingClientRect();
     this.world.addEntity(entityFactory
-      .createEvader(20,
+      .createEvader(50,
                     0,
                     this.evaderStrategy));
     this.world.addEntity(entityFactory.createPursuer(0, 0, this.pursuerStrategy));

@@ -20,16 +20,17 @@ export class World {
 
   update(elapsed: number, delta: number) {
     this.entities.forEach(entity => entity.update(elapsed, delta));
+    let captured = true;
     this.entities.forEach(entity1 => {
       this.entities.forEach(entity2 => {
         if (entity1 !== entity2) {
           if (Math.pow(entity1.getX() - entity2.getX(), 2) + Math.pow(entity1.getY() - entity2.getY(), 2) < Math.pow(this.caputreRadius,2)) {
-            return false;
+            captured = false;
           }
         }
       })
     })
-    return true;
+    return captured;
   }
 
   render() {
