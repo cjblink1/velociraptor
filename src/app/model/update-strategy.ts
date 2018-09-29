@@ -18,8 +18,12 @@ export abstract class UpdateStrategy {
 
   render() {
     const data = this.entityImpl.lineRef.attr('d');
-    this.entityImpl.lineRef.attr('d', data + `${+this.entityImpl.cx},${+this.entityImpl.cy} `);
-    this.entityImpl.ref.attr('cx', this.entityImpl.cx);
-    this.entityImpl.ref.attr('cy', this.entityImpl.cy);
+    this.entityImpl.lineRef.attr('d', data + `${+this.convertMeterToPixel(this.entityImpl.cx)},${+this.convertMeterToPixel(this.entityImpl.cy)} `);
+    this.entityImpl.ref.attr('cx', this.convertMeterToPixel(this.entityImpl.cx));
+    this.entityImpl.ref.attr('cy', this.convertMeterToPixel(this.entityImpl.cy));
+  }
+
+  convertMeterToPixel(pos) {
+    return (pos * 3) + 400;
   }
 }

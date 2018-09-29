@@ -3,9 +3,11 @@ import { Entity } from './entity';
 export class World {
   public ref;
   private entities: Entity[] = [];
+  public caputreRadius;
 
-  constructor(ref) {
+  constructor(ref, captureRadius) {
     this.ref = ref;
+    this.caputreRadius = captureRadius
   }
 
   addEntity(entity: Entity) {
@@ -18,6 +20,17 @@ export class World {
 
   update(elapsed: number, delta: number) {
     this.entities.forEach(entity => entity.update(elapsed, delta));
+    let captured = true;
+    this.entities.forEach(entity1 => {
+      this.entities.forEach(entity2 => {
+        if (entity1 !== entity2) {
+          if (Math.pow(entity1.getX() - entity2.getX(), 2) + Math.pow(entity1.getY() - entity2.getY(), 2) < Math.pow(this.caputreRadius,2)) {
+            captured = false;
+          }
+        }
+      })
+    })
+    return captured;
   }
 
   render() {
