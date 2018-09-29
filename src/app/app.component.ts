@@ -72,6 +72,7 @@ export class AppComponent implements OnInit {
        this.timer.stop();
        this.eaten = true;
        this.svg.append("svg:text")
+       .attr('id', 'txt')
        .attr("text-anchor", "middle")
        .attr('x', 500)
        .attr('y', 300)
@@ -85,6 +86,7 @@ export class AppComponent implements OnInit {
         this.started = false;
         if (! this.eaten) {
           this.svg.append("svg:text")
+          .attr('id', 'txt')
           .attr("text-anchor", "middle")
           .attr('x', 500)
           .attr('y', 300)
@@ -119,11 +121,16 @@ export class AppComponent implements OnInit {
       this.world.clear();
     }
 
-    this.world = new World(this.svg, 5);
+
+    d3.select("#txt").remove();
+
+    const startingDistance = Math.floor(Math.random() * 35) + 15;
+
+    this.world = new World(this.svg, .5);
     const entityFactory = new EntityFactory(this.entities, this.traces, this.world);
     const bounds = this.svg.node().getBoundingClientRect();
     this.world.addEntity(entityFactory
-      .createEvader(20,
+      .createEvader(startingDistance,
                     0,
                     this.evaderStrategy));
     this.world.addEntity(entityFactory.createPursuer(0, 0, this.pursuerStrategy));
